@@ -13,13 +13,7 @@ const restaurant = {
                         .db(`${process.env.MONGODB_DATABASE}`)
                         .collection(restaurant.collectionName)
                         .find()
-                        .toArray((err, result) => {
-                            if (err !== undefined && err) {
-                                cb(err)
-                            } else {
-                                cb(null, result)
-                            }
-                        })
+                        .toArray(cb)
                 }
             })
         } else {
