@@ -1,7 +1,21 @@
-<%- include('../../include/header'); %>
-<%- include('../../include/nav'); %>
+<%- include('../../include/header'); %> <%- include('../../include/nav'); %>
 <div class="container">
-    
+    <div class="row">
+        <div class="col m6 offset-m3">
+            <form action="./restaurant/create" method="POST">
+                
+                <div class="input-field col s12">
+                    <input name="name" type="text" class="validate" />
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <input name="restaurant_id" type="text" class="validate" />
+                    <label for="restaurant_id">Restaurant id</label>
+                </div>
+                <button type="submit" class="btn waves-effect waves-light" name="action">Create</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <%- include('../../include/footer'); %>
