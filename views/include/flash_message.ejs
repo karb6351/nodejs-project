@@ -1,0 +1,7 @@
+<% if (flash_failure_message.length > 0){ %>
+    <div id="flash-message" data-message="<%- flash_failure_message  %>" data-type="error"></div>
+<% } %>
+
+<% if (flash_success_message.length > 0){ %>
+    <div id="flash-message" data-message="<%- flash_success_message  %>" data-type="success"></div>
+<% } %>

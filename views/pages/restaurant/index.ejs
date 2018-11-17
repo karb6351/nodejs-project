@@ -1,0 +1,35 @@
+<%- include('../../include/header'); %>
+<%- include('../../include/nav'); %>
+<div class="container">
+    <table class="striped">
+        <thead>
+          <tr>
+              <th>Restaurant id</th>
+              <th>Name</th>
+              <th>Borough</th>
+              <th>Cuisine</th>
+              <th>Photo</th>
+              <th>address</th>
+              <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% restaurants.forEach(restaurant => { %>
+          <tr>
+            <td><%= restaurant.restaurant_id %></td>
+            <td><%= restaurant.name %></td>
+            <td><%= restaurant.borough %></td>
+            <td><%= restaurant.cuisine %></td>
+            <td><%= restaurant.photo %></td>
+            <td><%= restaurant.address %></td>
+            <td>
+              <a href="#" class="btn light-blue accent-2">Edit</a>
+              <a href="#" class="btn red accent-2">Delete</a>
+            </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+</div>
+
+<%- include('../../include/footer'); %>

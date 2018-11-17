@@ -1,0 +1,31 @@
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+.login, .register{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+#toast-container {
+  top: auto !important;
+  right: 3vw !important;
+  bottom: 3vw;
+  left: auto;  
+}
+
+.nav-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.search{
+  box-sizing: border-box;
+  height: 90%;
+
+}

@@ -1,0 +1,32 @@
+<%- include('../../include/header'); %>
+<div class="teal lighten-2 register">
+    <div class="container">
+        <div class="row">
+            <div class="col offset-m3 s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title teal-text lighten-2">
+                            Register
+                        </span>
+                        <form action="./register" method="POST">
+                            <div class="input-field">
+                                <label for="userid">User ID</label>
+                                <input type="text" class="validate" name="userid">
+                            </div>
+                            <div class="input-field">
+                                <label for="password">Password</label>
+                                <input type="password" class="validate" name="password">
+                            </div>
+                            <button type="submit" class="btn waves-effect waves-light" name="action">Register</button>
+                            <a href="./login" class="btn grey darken-1">Already is member</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include('../../include/footer'); %>
