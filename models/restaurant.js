@@ -2,28 +2,42 @@ const mongoService = require('../services/mongodb_service')
 
 const restaurant = {
     collectionName: 'restaurants',
-    getRestaurants: () => {
-        const restaurants = mongoService
-            .connect()
-            .then(client => {
-                const collection = mongoService.getCollection(
-                    client,
-                    this.collectionName
-                )
-                return collection.find().toArray()
-            })
-            .catch(err => {
-                console.error(err)
-                return []
-            })
-        console.log('Get restaurants' + restaurants)
-        return restaurants
-    },
-    create: (restaurant_id, name, cb) => {
+    getRestaurants: cb => {
         if (cb !== undefined && cb) {
             // callback style
-            mongoService.connect((err, client) => {
-                if (err) {
+            mongoService.connect((error, client) => {
+                if (error !== undefined && error) {
+                    cb(error)
+                } else {
+                    client
+                        .db(`${process.env.MONGODB_DATABASE}`)
+                        .collection(restaurant.collectionName)
+                        .find()
+                        .toArray((err, result) => {
+                            if (err !== undefined && err) {
+                                cb(err)
+                            } else {
+                                cb(null, result)
+                            }
+                        })
+                }
+            })
+        } else {
+            // promise style
+            return mongoService.connect().then(client => {
+                return client
+                    .db(`${process.env.MONGODB_DATABASE}`)
+                    .collection(restaurant.collectionName)
+                    .find()
+                    .toArray()
+            })
+        }
+    },
+    create: ({ restaurant_id, name }, cb) => {
+        if (cb !== undefined && cb) {
+            // callback style
+            mongoService.connect((error, client) => {
+                if (error !== undefined && error) {
                     cb(err)
                 } else {
                     client

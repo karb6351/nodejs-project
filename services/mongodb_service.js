@@ -3,7 +3,7 @@ const mongodb = require('mongodb')
 const mongoClient = mongodb.MongoClient
 
 const connect = cb => {
-    if (cb === undefined) {
+    if (cb === undefined || !cb) {
         // using promise style
         return mongoClient.connect(
             `mongodb://${process.env.MONGODB_DB_USERNAME}:${
@@ -22,7 +22,7 @@ const connect = cb => {
                 process.env.MONGODB_DATABASE
             }`,
             { useNewUrlParser: true },
-            cb(err, client)
+            cb
         )
     }
 }

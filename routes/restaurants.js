@@ -4,70 +4,38 @@ const router = express.Router()
 const restaurantModel = require('../models/restaurant')
 
 router.get('/', (req, res, next) => {
-    // const restaurants = restaurantModel.getRestaurants()
-    //dummy data
-    const restaurants = [
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
-        },
-        {
-            restaurant_id: 'Eclair',
-            name: 'Alvin',
-            borough: 'Alvin',
-            cuisine: 'Alvin',
-            photo: 'Alvin',
-            address: 'Alvin'
+    let restaurants = []
+
+    //callback style
+    restaurantModel.getRestaurants((err, result) => {
+        if (err !== undefined && err){
+            console.log(err.message)
+        }else{
+            restaurants = result
+            console.log(restaurants)
         }
-    ]
-    res.render('pages/restaurant/index', {
-        session: req.session,
-        restaurants: restaurants
+        res.render('pages/restaurant/index', {
+            session: req.session,
+            restaurants: restaurants
+        })
     })
+
+    //promise style
+    // restaurantModel
+    //     .getRestaurants()
+    //     .then(result => {
+    //         res.render('pages/restaurant/index', {
+    //             session: req.session,
+    //             restaurants: result
+    //         })
+    //     })
+    //     .catch(err => {
+    //         console.log(err.message)
+    //         res.render('pages/restaurant/index', {
+    //             session: req.session,
+    //             restaurants: []
+    //         })
+    //     })
 })
 
 router.get('/create', (req, res, next) => {
@@ -75,22 +43,27 @@ router.get('/create', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const restaurant_id = req.body.restaurant_id
-    const name = req.body.name
-    restaurantModel.create(restaurant_id, name, (err, result) => {
-        if (err) {
+    // callback style
+    restaurantModel.create(req.body, (err, result) => {
+        if (err !== undefined && err) {
             console.log(err)
+            res.redirect('back')
         } else {
-            console.log(result) 
+            console.log(result)
+            res.redirect('/restaurant')
         }
     })
 
     //promise style
     // restaurantModel
-    //     .create(restaurant_id, name)
-    //     .then(result => {})
+    //     .create(req.body)
+    //     .then(result => {
+    //         console.log(result)
+    //         res.redirect('/restaurant')
+    //     })
     //     .catch(err => {
-    //         console.error(err)
+    //         console.log(err)
+    //         res.redirect('back')
     //     })
 })
 
