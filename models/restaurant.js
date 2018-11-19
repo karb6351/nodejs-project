@@ -1,5 +1,6 @@
 const mongoService = require('../services/mongodb_service')
 
+//test
 const restaurant = {
     collectionName: 'restaurants',
     getRestaurants: cb => {
