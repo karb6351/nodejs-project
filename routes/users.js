@@ -6,7 +6,7 @@ const user = require('../models/user')
 const auth = require('../middlewares/auth')
 const guest = require('../middlewares/guest')
 
-router.get('/login', guest, (req, res) => {
+router.get('/login', guest, (req, res, next) => {
     res.render('pages/user/login', {
         session: req.session
     })

@@ -6,9 +6,8 @@ const restaurantModel = require('../models/restaurant')
 router.get('/', (req, res, next) => {
     let restaurants = []
 
-    //callback style
-    restaurantModel.getRestaurants((err, result) => {
-        if (err !== undefined && err){
+    const callback = (err, result) => {
+        if (err){
             console.log(err.message)
         }else{
             restaurants = result
@@ -18,7 +17,14 @@ router.get('/', (req, res, next) => {
             session: req.session,
             restaurants: restaurants
         })
-    })
+    }
+
+    //callback style
+    restaurantModel.getRestaurants(callback)
+
+
+
+    
 
     //promise style
     // restaurantModel
@@ -43,6 +49,9 @@ router.get('/create', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
+    if (!req.body.name || req.body.name === '') {
+        res.redirect('/restaurant/create')
+    }
     // callback style
     restaurantModel.create(req.body, (err, result) => {
         if (err !== undefined && err) {

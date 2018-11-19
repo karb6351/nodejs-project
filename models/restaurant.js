@@ -4,10 +4,9 @@ const restaurant = {
     collectionName: 'restaurants',
     getRestaurants: cb => {
         if (cb !== undefined && cb) {
-            // callback style
-            mongoService.connect((error, client) => {
+            const callback = (error, client) => {
                 if (error !== undefined && error) {
-                    cb(error)
+                    cb(error, null)
                 } else {
                     client
                         .db(`${process.env.MONGODB_DATABASE}`)
@@ -15,7 +14,9 @@ const restaurant = {
                         .find()
                         .toArray(cb)
                 }
-            })
+            }
+            // callback style
+            mongoService.connect(callback)
         } else {
             // promise style
             return mongoService.connect().then(client => {
