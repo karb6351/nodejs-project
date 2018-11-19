@@ -53,7 +53,7 @@ router.post('/create', (req, res, next) => {
         res.redirect('/restaurant/create')
     }
     // callback style
-    restaurantModel.create(req.body, (err, result) => {
+    restaurantModel.create(req.body, req.session.userid, (err, result) => {
         if (err !== undefined && err) {
             console.log(err)
             res.redirect('back')
@@ -76,10 +76,38 @@ router.post('/create', (req, res, next) => {
     //     })
 })
 
-router.get('/update/:id', (req, res, next) => {})
+router.get('/update/:id', (req, res, next) => {
+    const callback = (error, result) =>{
+        if(error){
+            console.log(error.message)
+            res.redirect("/restaurant")
+        }
+        else{
+            restaurant = result[0];
+            res.render("pages/restaurant/update",{
+                restaurant: restaurant
+            });
+        }
+    }    
+    restaurantModel.getRestaurantbyId(req.params.id, callback)
+})
 
-router.put('/update/:id', (req, res, next) => {})
+router.post('/update/:id', (req, res, next) => {
+    console.log('asd')
+    const callback = (error, result) =>{
+        if(error){
+            console.log(error.message)
+            res.redirect("/restaurant")
+        }
+        else{
+            res.redirect("/restaurant")
+        }
+    }
 
-router.delete('/delete/:id', (req, res, next) => {})
+    restaurantModel.update(req.body, req.params.id, callback)
+
+})
+
+router.get('/delete/:id', (req, res, next) => {})
 
 module.exports = router
