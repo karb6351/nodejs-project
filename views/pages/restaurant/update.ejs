@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col m6 offset-m3">
-            <form action="/restaurant/update/<%= restaurant.restaurant_id  %>" method="POST">
+            <form action="/restaurant/update/<%= restaurant.restaurant_id  %>" method="POST" enctype="multipart/form-data">
                 <div class="input-field col s12">
                     <input name="name" id="name" type="text" class="validate" value="<%= restaurant.name %>" />
                     <label for="name">Name</label>
@@ -44,8 +44,18 @@
                     <label for="coord">Coord</label>
                 </div>
 
+                <div class="file-field input-field col s12">
+                    <div class="btn">
+                        <span>Photo</span>
+                        <input type="file" name="photo" id="photo">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
 
-                <button type="submit" class="btn waves-effect waves-light" name="action">Create</button>
+
+                <button type="submit" class="btn waves-effect waves-light" name="action">Update</button>
             </form>
         </div>
     </div>

@@ -48,8 +48,9 @@ const restaurant = {
   },
 
   update: (
-    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord },
-    userID,
+    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord, photo, extension  },
+    old_restaurant_id,
+    old_restaurant,
     cb
   ) => {
     // const callback =
@@ -57,12 +58,14 @@ const restaurant = {
       if (error !== undefined && error) {
         cb(error, null);
       } else {
+        update_extension = extension == '' ? old_restaurant.extension : extension
+        update_photo =  photo == '' ? old_restaurant.photo : photo
         result
           .db(`${process.env.MONGODB_DATABASE}`)
           .collection(restaurant.collectionName)
           .update(
             {
-              restaurant_id: userID
+              restaurant_id: old_restaurant_id
             },
             {
               restaurant_id: restaurant_id,
@@ -74,7 +77,9 @@ const restaurant = {
                 building: building,
                 zipcode: zipcode,
                 coord: coord
-              }
+              },
+              photo: update_photo,
+              extension: update_extension,
             },
             cb
           );
@@ -82,7 +87,7 @@ const restaurant = {
     });
   },
   create: (
-    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord },
+    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord, photo, extension },
     userID,
     cb
   ) => {
@@ -108,6 +113,8 @@ const restaurant = {
                   coord: coord
                 },
                 grades: [],
+                photo: photo,
+                extension: extension,
                 owner: userID
               },
               cb
@@ -126,7 +133,10 @@ const restaurant = {
           })
       );
     }
-  }
+  },
+  delete: (user_id, restaurant_id) => {
+    
+  } 
 };
 
 module.exports = restaurant;

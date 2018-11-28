@@ -1,5 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const formidable = require('formidable')
+const fs = require('fs')
+const path = require('path')
 
 const restaurantModel = require('../models/restaurant')
 
@@ -7,11 +10,10 @@ router.get('/', (req, res, next) => {
     let restaurants = []
 
     const callback = (err, result) => {
-        if (err){
+        if (err) {
             console.log(err.message)
-        }else{
+        } else {
             restaurants = result
-            console.log(restaurants)
         }
         res.render('pages/restaurant/index', {
             session: req.session,
@@ -21,10 +23,6 @@ router.get('/', (req, res, next) => {
 
     //callback style
     restaurantModel.getRestaurants(callback)
-
-
-
-    
 
     //promise style
     // restaurantModel
@@ -49,17 +47,31 @@ router.get('/create', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    if (!req.body.name || req.body.name === '') {
-        res.redirect('/restaurant/create')
-    }
-    // callback style
-    restaurantModel.create(req.body, req.session.userid, (err, result) => {
-        if (err !== undefined && err) {
-            console.log(err)
+    const form = new formidable.IncomingForm()
+    form.parse(req, (err, fields, files) => {
+        const filename = files.photo.path
+        const extension = files.photo.type
+        if (!fields['name'] || fields['name'] === '') {
             res.redirect('back')
         } else {
-            console.log(result)
-            res.redirect('/restaurant')
+            fs.readFile(filename, (err, data) => {
+                const base64 = new Buffer(data).toString('base64')
+                // callback style
+                restaurantModel.create(
+                    { ...fields, photo: base64, extension: extension },
+                    req.session.userid,
+                    (err, result) => {
+                        if (err !== undefined && err) {
+                            console.log(err)
+                            req.flash('failure_message', 'You have failure create the restaurant')
+                            res.redirect('back')
+                        } else {
+                            req.flash('success_message', 'You have successfully create the restaurant')
+                            res.redirect('/restaurant')
+                        }
+                    }
+                )
+            })
         }
     })
 
@@ -77,35 +89,82 @@ router.post('/create', (req, res, next) => {
 })
 
 router.get('/update/:id', (req, res, next) => {
-    const callback = (error, result) =>{
-        if(error){
+    const callback = (error, result) => {
+        if (error) {
             console.log(error.message)
-            res.redirect("/restaurant")
-        }
-        else{
-            restaurant = result[0];
-            res.render("pages/restaurant/update",{
+            res.redirect('/restaurant')
+        } else if (result[0].owner !== req.session.userid) {
+            console.log('Unauthorized')
+            req.flash('failure_message', 'Unauthorized access')
+            res.status(403).redirect('back')
+        } else {
+            restaurant = result[0]
+            res.render('pages/restaurant/update', {
                 restaurant: restaurant
-            });
+            })
         }
-    }    
+    }
     restaurantModel.getRestaurantbyId(req.params.id, callback)
 })
 
 router.post('/update/:id', (req, res, next) => {
-    console.log('asd')
-    const callback = (error, result) =>{
-        if(error){
-            console.log(error.message)
-            res.redirect("/restaurant")
+    const form = new formidable.IncomingForm()
+    form.parse(req, (err, fields, files) => {
+        const filename = files.photo.path
+        const extension = files.photo.type
+        if (!fields['name'] || fields['name'] === '') {
+            res.redirect('back')
+        } else {
+            fs.readFile(filename, (err, data) => {
+                let base64 = ''
+                if (data){
+                    base64 = new Buffer(data).toString('base64')
+                }
+                restaurantModel.getRestaurantbyId(
+                    req.params.id,
+                    (err, oldRestaurant) => {
+                        if (err !== undefined && err) {
+                            res.redirect('back')
+                        } else if (oldRestaurant.owner != req.session.userid) {
+                            console.log('Unauthorized')
+                            req.flash('failure_message', 'Unauthorized access')
+                            res.status(403).redirect('back')
+                        } else{
+                            restaurantModel.update(
+                                {
+                                    ...fields,
+                                    photo: base64,
+                                    extension: extension
+                                },
+                                req.params.id,
+                                oldRestaurant[0],
+                                (error, result) => {
+                                    if (error) {
+                                        console.log(error.message)
+                                        req.flash('failure_message', 'You have failure update the restaurant')
+                                        res.redirect('/restaurant')
+                                    } else {
+                                        req.flash('success_message', 'You have successfully update the restaurant')
+                                        res.redirect('/restaurant')
+                                    }
+                                }
+                            )
+                        }
+                    }
+                )
+            })
         }
-        else{
-            res.redirect("/restaurant")
-        }
-    }
+    })
 
-    restaurantModel.update(req.body, req.params.id, callback)
-
+    // const callback = (error, result) => {
+    //     if (error) {
+    //         console.log(error.message)
+    //         res.redirect('/restaurant')
+    //     } else {
+    //         res.redirect('/restaurant')
+    //     }
+    // }
+    // restaurantModel.update(req.body, req.params.id, callback)
 })
 
 router.get('/delete/:id', (req, res, next) => {})

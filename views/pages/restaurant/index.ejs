@@ -9,7 +9,6 @@
               <th>Borough</th>
               <th>Cuisine</th>
               <th>Photo</th>
-              <th>address</th>
               <th>Action</th>
           </tr>
         </thead>
@@ -20,8 +19,11 @@
             <td><%= restaurant.name %></td>
             <td><%= restaurant.borough %></td>
             <td><%= restaurant.cuisine %></td>
-            <td><%= restaurant.photo %></td>
-            <td><%= restaurant.address %></td>
+            <td>
+              <%  if (restaurant.extension){ %>
+              <img style="height: 150px;" src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>" alt="">
+              <%  } %>
+            </td>
             <td>
               <a href="/restaurant/update/<%= restaurant.restaurant_id %>" class="btn light-blue accent-2">Edit</a>
               <a href="#" class="btn red accent-2">Delete</a>
