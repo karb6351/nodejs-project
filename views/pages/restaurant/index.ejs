@@ -1,65 +1,85 @@
 <%- include('../../include/header'); %> <%- include('../../include/nav'); %>
 <div class="container">
-  <table class="striped">
-    <thead>
-      <tr>
-        <th>Owner</th>
-        <th>Restaurant id</th>
-        <th>Name</th>
-        <th>Borough</th>
-        <th>Cuisine</th>
-        <th>Photo</th>
-        <th>Coord</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% restaurants.forEach(restaurant => { %>
-      <tr>
-        <td><%= restaurant.owner %></td>
-        <td><%= restaurant.restaurant_id %></td>
-        <td><%= restaurant.name %></td>
-        <td><%= restaurant.borough %></td>
-        <td><%= restaurant.cuisine %></td>
-        <td>
-          <% if (restaurant.extension){ %>
-          <img
-            style="height: 150px; width: 200px"
-            src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>"
-            alt=""
-          />
-          <% } %>
-        </td>
-
-        <td>
-          <% if (restaurant.address.coord){ %>
-          <a target="_blank" href="https://www.google.com/maps/@<%= restaurant.address.coord %>"
-            >Click this to Google Map
-          </a>
-          <% } %>
-        </td>
-
-        <td>
-          <a
-            href="/restaurant/update/<%= restaurant.restaurant_id %>"
-            class="btn light-blue accent-2"
-            >Edit</a
-          >
-          <a
-            href="/restaurant/delete/<%= restaurant.restaurant_id  %>"
-            class="btn red accent-2"
-            >Delete</a
-          >
-          <a
-            href="/restaurant/rate/<%= restaurant.restaurant_id  %>"
-            class="btn teal accent-4"
-            >Rate</a
-          >
-        </td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
+  <% if (isSearch) { %>
+  <div class="card">
+    <div class="card-content">
+        <a
+        href="/restaurant"
+        class="btn grey lighten-1"
+        >Back</a
+        >
+    </div>
+  </div>
+  <% } %>
+  <div class="card">
+    <div class="card-content">
+        <table class="striped">
+            <thead>
+              <tr>
+                <th>Owner</th>
+                <!-- <th>Restaurant id</th> -->
+                <th>Name</th>
+                <!-- <th>Borough</th>
+                <th>Cuisine</th>
+                <th>Photo</th>
+                <th>Coord</th> -->
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% restaurants.forEach(restaurant => { %>
+              <tr>
+                <td><%= restaurant.owner %></td>
+                <!-- <td><%= restaurant.restaurant_id %></td> -->
+                <td><%= restaurant.name %></td>
+                <!-- <td><%= restaurant.borough %></td>
+                <td><%= restaurant.cuisine %></td>
+                <td>
+                  <% if (restaurant.extension){ %>
+                  <img
+                    style="height: 150px; width: 200px"
+                    src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>"
+                    alt=""
+                  />
+                  <% } %>
+                </td>
+        
+                <td>
+                  <% if (restaurant.address.coord){ %>
+                  <a target="_blank" href="https://www.google.com/maps/@<%= restaurant.address.coord %>"
+                    >Click this to Google Map
+                  </a>
+                  <% } %>
+                </td> -->
+        
+                <td>
+                  <a
+                    href="/restaurant/<%= restaurant._id %>"
+                    class="btn grey lighten-1"
+                    >View</a
+                  >
+                  <a
+                    href="/restaurant/update/<%= restaurant._id %>"
+                    class="btn light-blue accent-2"
+                    >Edit</a
+                  >
+                  <a
+                    href="/restaurant/rate/<%= restaurant._id  %>"
+                    class="btn teal accent-4"
+                    >Rate</a
+                  >
+                  <a
+                    href="/restaurant/delete/<%= restaurant._id  %>"
+                    class="btn red accent-2"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+    </div>
+  </div>
 </div>
 
 <%- include('../../include/footer'); %>

@@ -1,61 +1,74 @@
 <%- include('../../include/header'); %> <%- include('../../include/nav'); %>
 <div class="container">
     <div class="row">
-        <div class="col m6 offset-m3">
-            <form action="./create" method="POST" enctype="multipart/form-data">
-                <div class="input-field col s12">
-                    <input name="name" id="name" type="text" class="validate"/>
-                    <label for="name">Name</label>
+        <div class="col m8 offset-m2">
+            <div class="card">
+                <div class="card-content">
+                    <a
+                    href="/restaurant"
+                    class="btn grey lighten-1"
+                    >Back</a
+                    >
                 </div>
-                <div class="input-field col s12">
-                    <input name="restaurant_id" id="restaurant_id"  type="text" class="validate" />
-                    <label for="restaurant_id">Restaurant id</label>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                        <form action="./create" method="POST" enctype="multipart/form-data">
+                            <div class="input-field col s12">
+                                <input name="name" id="name" type="text" class="validate"/>
+                                <label for="name">Name</label>
+                            </div>
+                            <!-- <div class="input-field col s12">
+                                <input name="restaurant_id" id="restaurant_id"  type="text" class="validate" />
+                                <label for="restaurant_id">Restaurant id</label>
+                            </div> -->
+                            <div class="input-field col s12">
+                                <input name="borough" id="borough" type="text" class="validate" />
+                                <label for="borough">Borough</label>
+                            </div>
+            
+                            <div class="input-field col s12">
+                                <input name="cuisine" id="cuisine" type="text" class="validate" />
+                                <label for="cuisine">Cuisine</label>
+                            </div>
+            
+                            <div class="input-field col s12">
+                                <input name="street" id="street" type="text" class="validate" />
+                                <label for="street">Street</label>
+                            </div>
+            
+                            
+            
+                            <div class="input-field col s12">
+                                <input name="building" id="building" type="text" class="validate" />
+                                <label for="building">Building</label>
+                            </div>
+            
+                            <div class="input-field col s12">
+                                <input name="zipcode" id="zipcode" type="text" class="validate" />
+                                <label for="zipcode">Zipcode</label>
+                            </div>
+            
+                            <div class="input-field col s12">
+                                <input name="coord" id="coord" type="text" class="validate" />
+                                <label for="coord">Coord</label>
+                            </div>
+            
+                            <div class="file-field input-field col s12">
+                                <div class="btn">
+                                    <span>Photo</span>
+                                    <input type="file" name="photo" id="photo">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                            </div>
+            
+            
+                            <button type="submit" class="btn waves-effect waves-light" name="action">Create</button>
+                        </form>
                 </div>
-                <div class="input-field col s12">
-                    <input name="borough" id="borough" type="text" class="validate" />
-                    <label for="borough">Borough</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="cuisine" id="cuisine" type="text" class="validate" />
-                    <label for="cuisine">Cuisine</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="street" id="street" type="text" class="validate" />
-                    <label for="street">Street</label>
-                </div>
-
-                
-
-                <div class="input-field col s12">
-                    <input name="building" id="building" type="text" class="validate" />
-                    <label for="building">Building</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="zipcode" id="zipcode" type="text" class="validate" />
-                    <label for="zipcode">Zipcode</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="coord" id="coord" type="text" class="validate" />
-                    <label for="coord">Coord</label>
-                </div>
-
-                <div class="file-field input-field col s12">
-                    <div class="btn">
-                        <span>Photo</span>
-                        <input type="file" name="photo" id="photo">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
-                    </div>
-                </div>
-
-
-                <button type="submit" class="btn waves-effect waves-light" name="action">Create</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>

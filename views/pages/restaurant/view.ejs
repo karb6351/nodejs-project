@@ -1,0 +1,62 @@
+<%- include('../../include/header'); %> <%- include('../../include/nav'); %>
+
+<div class="container">
+    <div class="row">
+        <div class="col m8 offset-m2">
+            <div class="card">
+                <div class="card-content">
+                        <a
+                        href="/restaurant"
+                        class="btn grey lighten-1"
+                        >Back</a
+                        >
+                </div>
+            </div>
+           <div class="card" style="margin-top: 50px;">
+                <% if (restaurant.extension && restaurant.photo){ %>
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>">
+                </div>
+                <% } %>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4"><%= restaurant.name %>
+                        <i class="material-icons right">more_vert</i>
+                    </span>
+                    <table class="table">    
+                        <tbody>
+                            <tr><th colspan="3">Borough:</th><td><%= restaurant.borough %></td></tr>
+                            <tr><th colspan="3">Cuisine:</th><td><%= restaurant.cuisine %></td></tr>
+                            <tr><th colspan="3">Owner:</th><td><%= restaurant.owner %></td></tr>
+                            <tr><th rowspan="6" colspan="2" style="vertical-align: top">Address:</th></tr>
+                            <tr><th>Street</th><td><%= restaurant.address.street %></td></tr>
+                            <tr><th>Building</th><td><%= restaurant.address.building %></td></tr>
+                            <tr><th>Zipcode</th><td><%= restaurant.address.zipcode %></td></tr>
+                            <tr><th>Coord</th><td><%= restaurant.address.coord %></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Grades<i class="material-icons right">close</i></span>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Owner</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% restaurant.grades.forEach(item => { %>
+                            <tr>
+                                <td><%= item.user_id %></td>
+                                <td><%= item.score %></td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../include/footer'); %>
