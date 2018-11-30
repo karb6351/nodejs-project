@@ -47,9 +47,19 @@ const restaurant = {
     mongoService.connect(callback);
   },
 
-
   update: (
-    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord, photo, extension  },
+    {
+      restaurant_id,
+      name,
+      borough,
+      cuisine,
+      street,
+      building,
+      zipcode,
+      coord,
+      photo,
+      extension
+    },
     old_restaurant_id,
     old_restaurant,
     cb
@@ -59,8 +69,9 @@ const restaurant = {
       if (error !== undefined && error) {
         cb(error, null);
       } else {
-        update_extension = extension == '' ? old_restaurant.extension : extension
-        update_photo =  photo == '' ? old_restaurant.photo : photo
+        update_extension =
+          extension == "" ? old_restaurant.extension : extension;
+        update_photo = photo == "" ? old_restaurant.photo : photo;
         result
           .db(`${process.env.MONGODB_DATABASE}`)
           .collection(restaurant.collectionName)
@@ -80,7 +91,7 @@ const restaurant = {
                 coord: coord
               },
               photo: update_photo,
-              extension: update_extension,
+              extension: update_extension
             },
             cb
           );
@@ -88,7 +99,18 @@ const restaurant = {
     });
   },
   create: (
-    { restaurant_id, name, borough, cuisine, street, building, zipcode, coord, photo, extension },
+    {
+      restaurant_id,
+      name,
+      borough,
+      cuisine,
+      street,
+      building,
+      zipcode,
+      coord,
+      photo,
+      extension
+    },
     userID,
     cb
   ) => {
@@ -136,7 +158,7 @@ const restaurant = {
     }
   },
   delete: (user_id, restaurant_id, cb) => {
-    const callback = (error, result)=>{
+    const callback = (error, result) => {
       if (error !== undefined && error) {
         cb(err);
       } else {
@@ -145,14 +167,15 @@ const restaurant = {
           .collection(restaurant.collectionName)
           .deleteOne(
             {
-              "owner": ObjectiD(user_id),
-              "restaurant_id" : ObjectiD(restaurant_id),
+              owner: user_id,
+              restaurant_id: restaurant_id
             },
             cb
           );
       }
-    }
-  } 
+    };
+    mongoService.connect(callback);
+  }
 };
 
 module.exports = restaurant;
