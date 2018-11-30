@@ -216,8 +216,6 @@ const checkRated = (grades, userid) => {
   if (!grades) return false;
   for (i = 0; i < grades.length; i++) {
     if (grades[i].userid == userid) {
-        console.log(grades[i].userid)
-        console.log(userid)
         return true;
     }
   }

@@ -10,13 +10,14 @@
               <th>Borough</th>
               <th>Cuisine</th>
               <th>Photo</th>
+              <th>Coord</th>>
               <th>Action</th>
           </tr>
         </thead>
         <tbody>
         <% restaurants.forEach(restaurant => { %>
           <tr>
-              <td><%= restaurant.owner %></td>
+            <td><%= restaurant.owner %></td>
             <td><%= restaurant.restaurant_id %></td>
             <td><%= restaurant.name %></td>
             <td><%= restaurant.borough %></td>
@@ -26,6 +27,18 @@
               <img style="height: 150px;" src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>" alt="">
               <%  } %>
             </td>
+
+
+
+            <td>
+                <%  if (restaurant.address.coord){ %>
+                  <a href="https://www.google.com/maps/@ <%=restaurant.address.coord>">Click this to Google Map </a>
+                  <%  } %>
+            </td>
+            
+
+
+
             <td>
               <a href="/restaurant/update/<%= restaurant.restaurant_id %>" class="btn light-blue accent-2">Edit</a>
               <a href="/restaurant/delete/<%= restaurant.restaurant_id  %>" class="btn red accent-2">Delete</a>
