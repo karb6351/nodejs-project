@@ -222,6 +222,7 @@ const checkRated = (grades, user_id) => {
   return false;
 };
 
+
 router.get("/rate/:id", (req, res, next) => {
   const callback = (error, result) => {
     if (error) {
@@ -245,5 +246,38 @@ router.get("/rate/:id", (req, res, next) => {
 
   //render view
 });
+
+router.post("/rate/:id", (req, res, next) => {
+    const callback = (error, result)=>{
+        if(error){
+            console.log("Cant get restautant");
+            res.redirect('/restaurant')
+        }
+        else{
+            if( checkRated(result[0].grade), req.session.user_id){
+                req.flash("failure_message", "You have rated before.");
+                res.redirect("/restaurant");
+            }
+            else{
+                const callback2=(error, result)=>{
+                    if(error){
+                        console.log("Error, cant rate");
+                        req.flash("failure_message", "Error, cant rate.");
+                        res.redirect('/restaurant')
+                    }
+                    else{
+                        console.log("You have rated");
+                        req.flash("success_message", "You have rated");
+                        res.redirect('/restaurant')
+                    }
+                    
+                }
+                restaurantModel.rate(req.session.user_id, req.body.rate, req.body.restaurant_id, callback2);
+            }
+        }
+    }
+
+    restaurantModel.getRestaurantbyId(req.params.id, callback);
+})
 
 module.exports = router;

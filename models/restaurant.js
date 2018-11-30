@@ -80,18 +80,20 @@ const restaurant = {
               restaurant_id: old_restaurant_id
             },
             {
-              restaurant_id: restaurant_id,
-              name: name,
-              borough: borough,
-              cuisine: cuisine,
-              address: {
-                street: street,
-                building: building,
-                zipcode: zipcode,
-                coord: coord
-              },
-              photo: update_photo,
-              extension: update_extension
+              $set: {
+                restaurant_id: restaurant_id,
+                name: name,
+                borough: borough,
+                cuisine: cuisine,
+                address: {
+                  street: street,
+                  building: building,
+                  zipcode: zipcode,
+                  coord: coord
+                },
+                photo: update_photo,
+                extension: update_extension
+              }
             },
             cb
           );
@@ -158,11 +160,27 @@ const restaurant = {
     }
   },
 
-
-  rate: ( user_id, score, restaurant_id, cb)=>{
-      
+  rate: (user_id, score, restaurant_id, cb) => {
+    const callback = (error, client) => {
+      if (error) {
+        cb(error);
+      } else {
+        client
+          .db(`${process.env.MONGODB_DATABASE}`)
+          .collection(restaurant.collectionName)
+          .update(
+            {
+              restaurant_id: restaurant_id
+            },
+            {
+              $push: { grades: { user_id, score } }
+            },
+            cb
+          );
+      }
+    };
+    mongoService.connect(callback);
   },
-
 
   delete: (user_id, restaurant_id, cb) => {
     const callback = (error, client) => {
