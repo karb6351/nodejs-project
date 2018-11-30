@@ -212,45 +212,38 @@ router.get("/delete/:id", (req, res, next) => {
   restaurantModel.getRestaurantbyId(req.params.id, callback);
 });
 
-
-const checkRated = (grades, user_id)=>{
-    if (!grades) return false
-    for (i=0; i<grades.length; i++){
-        if(grades[i].user_id == user_id){
-            return true;
-        }
+const checkRated = (grades, user_id) => {
+  if (!grades) return false;
+  for (i = 0; i < grades.length; i++) {
+    if (grades[i].user_id == user_id) {
+      return true;
     }
-    return false;
-}
+  }
+  return false;
+};
 
-router.get('/rate/:id', (req, res, next) => {
-    const callback = (error, result)=>{
-        if(error){
-            console.log("cant get restaurant");
-        }
-        else{
-            if (checkRated(result[0].grades, req.session.user_id) ){
-                console.log("Rated")
-                req.flash("failure_message","You have rated before.")
-                res.redirect('/restaurant')
-            }
-            else{
-                res.render("pages/restaurant/rate", {
-                    restaurant: result[0]
-                });
-            }
-        }
+router.get("/rate/:id", (req, res, next) => {
+  const callback = (error, result) => {
+    if (error) {
+      console.log("cant get restaurant");
+    } else {
+      if (checkRated(result[0].grades, req.session.user_id)) {
+        console.log("Rated");
+        req.flash("failure_message", "You have rated before.");
+        res.redirect("/restaurant");
+      } else {
+        res.render("pages/restaurant/rate", {
+          restaurant: result[0]
+        });
+      }
     }
-    // find restaurant
-    restaurantModel.getRestaurantbyId(req.params.id, callback)
+  };
+  // find restaurant
+  restaurantModel.getRestaurantbyId(req.params.id, callback);
 
+  //option: checking
 
-    
-    //option: checking
-
-    //render view
-
-})
-
+  //render view
+});
 
 module.exports = router;
