@@ -173,16 +173,10 @@ router.get ('/delete/:id', (req, res, next) => {
             console.log(error);
         }
         else{
-            console.log(result)
-            console.log(result[0])
-            console.log(result[0].owner)
             if(req.session.userid != result[0].owner ){
-                console.log(req.session.userid)
-                console.log(result[0].owner)
                 console.log('Unauthorized')
-                req.flash('failure_message', 'ON9, debug la')
-                res.redirect('/restaurant')
-                        
+                req.flash('failure_message', 'Unauthorized')
+                res.redirect('/restaurant')    
             }
             else{
                 const callback2 = (err, result) => {
@@ -195,7 +189,7 @@ router.get ('/delete/:id', (req, res, next) => {
                         res.redirect('/restaurant')
                     }
                 }
-                restaurantModel.delete(req.session.userid, result.restaurant_id, callback2)
+                restaurantModel.delete(req.session.userid, result[0].restaurant_id, callback2)
             }
         }
     }
