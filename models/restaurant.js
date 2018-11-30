@@ -192,7 +192,7 @@ const restaurant = {
           .collection(restaurant.collectionName)
           .find(
             {
-              $or: [{"name":key}, {"borough":key}, {"cuisine":key}, {"borough":key}]
+              $or: [{"name":key}, {"borough":key}, {"cuisine":key}]
             }
           )
           .toArray(cb);;
