@@ -254,7 +254,7 @@ router.post("/rate/:id", (req, res, next) => {
             res.redirect('/restaurant')
         }
         else{
-            if( checkRated(result[0].grade), req.session.userid){
+            if( checkRated(result[0].grades), req.session.userid){
                 req.flash("failure_message", "You have rated before.");
                 res.redirect("/restaurant");
             }
