@@ -157,6 +157,13 @@ const restaurant = {
       );
     }
   },
+
+
+  rate: ( user_id, score, restaurant_id, cb)=>{
+      
+  },
+
+
   delete: (user_id, restaurant_id, cb) => {
     const callback = (error, client) => {
       if (error !== undefined && error) {
