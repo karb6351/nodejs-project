@@ -174,6 +174,8 @@ router.get ('/delete/:id', (req, res, next) => {
         }
         else{
             console.log(result)
+            console.log(result[0])
+            console.log(result[0].owner)
             if(req.session.userid != result[0].owner ){
                 console.log(req.session.userid)
                 console.log(result[0].owner)
