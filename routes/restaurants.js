@@ -212,10 +212,10 @@ router.get("/delete/:id", (req, res, next) => {
   restaurantModel.getRestaurantbyId(req.params.id, callback);
 });
 
-const checkRated = (grades, user_id) => {
+const checkRated = (grades, userid) => {
   if (!grades) return false;
   for (i = 0; i < grades.length; i++) {
-    if (grades[i].user_id == user_id) {
+    if (grades[i].userid == userid) {
       return true;
     }
   }
@@ -228,7 +228,7 @@ router.get("/rate/:id", (req, res, next) => {
     if (error) {
       console.log("cant get restaurant");
     } else {
-      if (checkRated(result[0].grades, req.session.user_id)) {
+      if (checkRated(result[0].grades, req.session.userid)) {
         console.log("Rated");
         req.flash("failure_message", "You have rated before.");
         res.redirect("/restaurant");
@@ -254,7 +254,7 @@ router.post("/rate/:id", (req, res, next) => {
             res.redirect('/restaurant')
         }
         else{
-            if( checkRated(result[0].grade), req.session.user_id){
+            if( checkRated(result[0].grade), req.session.userid){
                 req.flash("failure_message", "You have rated before.");
                 res.redirect("/restaurant");
             }
@@ -266,14 +266,13 @@ router.post("/rate/:id", (req, res, next) => {
                         res.redirect('/restaurant')
                     }
                     else{
-                        console.log("You have rated");
-                        req.flash("success_message", "You have rated");
+                        console.log("You have succeefully rated");
+                        req.flash("success_message", "You have succeefully rated");
                         res.redirect('/restaurant')
                     }
                     
                 }
-                console.log(req.session.user_id)
-                restaurantModel.rate(req.session.user_id, req.body.rate, req.body.restaurant_id, callback2);
+                restaurantModel.rate(req.session.userid, req.body.rate, req.body.restaurant_id, callback2);
             }
         }
     }
