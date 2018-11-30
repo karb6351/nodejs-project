@@ -247,6 +247,30 @@ router.get("/rate/:id", (req, res, next) => {
   //render view
 });
 
+router.post("/search", (req, res, next) =>{
+    const callback = (error, result)=>{
+        if(error){
+            console.log("Search error");
+            req.flash("failure_message", "Error, cant search")
+            res.redirect("/restaurant")
+        }
+        else{
+            console.log("Search error");
+            req.flash("success_message", result.length + " is found")
+            res.render("/pages/restaurant/index", {
+                restaurants: result
+            })
+        }
+    }
+
+    //call model getRestaurantsWithSearchKey
+    restaurantModel.search (req.body.search, callback);
+
+})
+
+
+
+
 router.post("/rate/:id", (req, res, next) => {
     const callback = (error, result)=>{
         if(error){

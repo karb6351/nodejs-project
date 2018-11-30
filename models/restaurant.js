@@ -182,6 +182,25 @@ const restaurant = {
     mongoService.connect(callback);
   },
 
+  search: (key, cb) => {
+    const callback = (error, client) => {
+      if (error) {
+        cb(error);
+      } else {
+        client
+          .db(`${process.env.MONGODB_DATABASE}`)
+          .collection(restaurant.collectionName)
+          .find(
+            {
+              $or: [{"name":key}, {"borough":key}, {"cuisine":key}, {"borough":key}]
+            },
+            cb
+          );
+      }
+    };
+    mongoService.connect(callback);
+  },
+
   delete: (user_id, restaurant_id, cb) => {
     const callback = (error, client) => {
       if (error !== undefined && error) {
