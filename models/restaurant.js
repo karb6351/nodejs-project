@@ -193,9 +193,9 @@ const restaurant = {
           .find(
             {
               $or: [{"name":key}, {"borough":key}, {"cuisine":key}, {"borough":key}]
-            },
-            cb
-          );
+            }
+          )
+          .toArray(cb);;
       }
     };
     mongoService.connect(callback);

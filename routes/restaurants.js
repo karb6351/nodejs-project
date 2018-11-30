@@ -265,7 +265,7 @@ router.post("/search", (req, res, next) =>{
     }
 
     //call model getRestaurantsWithSearchKey
-    restaurantModel.search (req.body.search, callback);
+    restaurantModel.search(req.body.search, callback);
 
 })
 
