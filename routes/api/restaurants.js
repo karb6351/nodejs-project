@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
         if (error) {
             res.status(404).json({status: "failed"})
         }else {
-            res.status(200).json({status: "ok", _id: result.restaurant_id})
+            res.status(200).json({status: "ok", _id: result._id})
         }
     }
     restaurantModel.create({...body, ...address}, req.session.userid, callback)
