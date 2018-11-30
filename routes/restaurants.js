@@ -214,6 +214,7 @@ router.get("/delete/:id", (req, res, next) => {
 
 
 const checkRated = (grades, user_id)=>{
+    if (!grades) return false
     for (i=0; i<grades.length; i++){
         if(grades[i].user_id == user_id){
             return true;
@@ -223,8 +224,6 @@ const checkRated = (grades, user_id)=>{
 }
 
 router.get('/rate/:id', (req, res, next) => {
-
-
     const callback = (error, result)=>{
         if(error){
             console.log("cant get restaurant");
@@ -232,7 +231,7 @@ router.get('/rate/:id', (req, res, next) => {
         else{
             if (checkRated(result[0].grades, req.session.user_id) ){
                 console.log("Rated")
-                req.flash("failure_message","You have rared before.")
+                req.flash("failure_message","You have rated before.")
                 res.redirect('/restaurant')
             }
             else{
