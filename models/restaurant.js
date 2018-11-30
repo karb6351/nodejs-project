@@ -47,6 +47,7 @@ const restaurant = {
     mongoService.connect(callback);
   },
 
+
   update: (
     { restaurant_id, name, borough, cuisine, street, building, zipcode, coord, photo, extension  },
     old_restaurant_id,
@@ -134,8 +135,23 @@ const restaurant = {
       );
     }
   },
-  delete: (user_id, restaurant_id) => {
-    
+  delete: (user_id, restaurant_id, cb) => {
+    const callback = (error, result)=>{
+      if (error !== undefined && error) {
+        cb(err);
+      } else {
+        client
+          .db(`${process.env.MONGODB_DATABASE}`)
+          .collection(restaurant.collectionName)
+          .deleteOne(
+            {
+              "owner": ObjectiD(user_id),
+              "restaurant_id" : ObjectiD(restaurant_id),
+            },
+            cb
+          );
+      }
+    }
   } 
 };
 

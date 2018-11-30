@@ -167,6 +167,38 @@ router.post('/update/:id', (req, res, next) => {
     // restaurantModel.update(req.body, req.params.id, callback)
 })
 
-router.get('/delete/:id', (req, res, next) => {})
+router.get ('/delete/:id', (req, res, next) => {
+    const callback = (error, result)=>{
+        if (error){
+            console.log(error);
+        }
+        else{
+            if(req.session.userid != result.owner ){
+                console.log(req.session.userid)
+                console.log(result)
+                console.log('Unauthorized')
+            }
+            else{
+                const callback2 = (err, result) => {
+                    if (err){
+                        req.flash('failure_message', 'You have failure to delete this restaurant')
+                        res.redirect('/restaurant')
+                    }
+                    else{
+                        req.flash('success_message', 'You have deleted this restaurant')
+                        res.redirect('/restaurant')
+                    }
+                }
+                restaurantModel.delete(req.session.userid, result.restaurant_id, callback2)
+            }
+        }
+    }
+
+    console.log(req.params.id)
+
+    restaurantModel.getRestaurantbyId(req.params.id , callback);
+
+
+})
 
 module.exports = router
