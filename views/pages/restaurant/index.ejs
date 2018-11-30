@@ -10,7 +10,6 @@
         <th>Cuisine</th>
         <th>Photo</th>
         <th>Coord</th>
-        >
         <th>Action</th>
       </tr>
     </thead>
@@ -34,7 +33,7 @@
 
         <td>
           <% if (restaurant.address.coord){ %>
-          <a href="https://www.google.com/maps/@<%= restaurant.address.coord %>"
+          <a target="_blank" href="https://www.google.com/maps/@<%= restaurant.address.coord %>"
             >Click this to Google Map
           </a>
           <% } %>
