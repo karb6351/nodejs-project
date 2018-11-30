@@ -272,6 +272,7 @@ router.post("/rate/:id", (req, res, next) => {
                     }
                     
                 }
+                console.log(req.session.user_id)
                 restaurantModel.rate(req.session.user_id, req.body.rate, req.body.restaurant_id, callback2);
             }
         }
