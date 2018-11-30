@@ -158,7 +158,7 @@ const restaurant = {
     }
   },
   delete: (user_id, restaurant_id, cb) => {
-    const callback = (error, result) => {
+    const callback = (error, client) => {
       if (error !== undefined && error) {
         cb(err);
       } else {
