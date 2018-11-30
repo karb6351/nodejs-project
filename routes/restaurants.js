@@ -255,11 +255,12 @@ router.post("/search", (req, res, next) =>{
             res.redirect("/restaurant")
         }
         else{
-            console.log("Search error");
+            console.log("Successfully search result");
             req.flash("success_message", result.length + " is found")
-            res.render("/pages/restaurant/index", {
+            res.render("pages/restaurant/index", {
+                session: req.session,
                 restaurants: result
-            })
+              });
         }
     }
 
