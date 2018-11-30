@@ -2,8 +2,16 @@ const express = require('express')
 const router = express.Router()
 const restaurantModel = require('../../models/restaurant')
 
-router.get('/', (req, res) => {
-
+router.get('/:key/:value', (req, res) => {
+    const callback = (error, result) => {
+        console.log(result)
+        if (error) {
+            res.status(404).json({})
+        }else {
+            res.status(200).json(result)
+        }
+    }
+    restaurantModel.search2(req.params.key, req.params.value, callback)
 })
 
 router.post('/', (req, res) => {

@@ -190,12 +190,25 @@ const restaurant = {
         client
           .db(`${process.env.MONGODB_DATABASE}`)
           .collection(restaurant.collectionName)
-          .find(
-            {
-              $or: [{"name":key}, {"borough":key}, {"cuisine":key}]
-            }
-          )
-          .toArray(cb);;
+          .find({
+            $or: [{ name: key }, { borough: key }, { cuisine: key }]
+          })
+          .toArray(cb);
+      }
+    };
+    mongoService.connect(callback);
+  },
+
+  search2: (key, value, cb) => {
+    const callback = (error, client) => {
+      if (error) {
+        cb(error);
+      } else {
+        client
+          .db(`${process.env.MONGODB_DATABASE}`)
+          .collection(restaurant.collectionName)
+          .find({ key: value })
+          .toArray(cb);
       }
     };
     mongoService.connect(callback);
