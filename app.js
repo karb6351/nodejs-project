@@ -14,8 +14,11 @@ const auth = require('./middlewares/auth')
 const guest = require('./middlewares/guest')
 /** custom middlewares */
 
+//html
 const usersRouter = require('./routes/users')
 const restaurantRouter = require('./routes/restaurants')
+
+//json
 const restaurantApiRouter = require('./routes/api/restaurants')
 
 var app = express()
