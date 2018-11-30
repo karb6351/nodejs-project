@@ -199,15 +199,17 @@ const restaurant = {
     mongoService.connect(callback);
   },
 
-  search2: (key, value, cb) => {
+  search2: (search_key, search_value, cb) => {
     const callback = (error, client) => {
       if (error) {
         cb(error);
       } else {
+        let container = {}
+        container[search_key] = search_value
         client
           .db(`${process.env.MONGODB_DATABASE}`)
           .collection(restaurant.collectionName)
-          .find({ key: value })
+          .find(container)
           .toArray(cb);
       }
     };

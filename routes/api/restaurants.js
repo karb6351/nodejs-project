@@ -18,7 +18,6 @@ router.post('/', (req, res) => {
     const body = req.body
     const address = body.address
     const callback = (error, result) => {
-        console.log(result)
         if (error) {
             res.status(404).json({status: "failed"})
         }else {
