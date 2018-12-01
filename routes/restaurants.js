@@ -180,7 +180,11 @@ router.get('/delete/:id', (req, res, next) => {
 		if (error) {
 			console.log(error)
 		} else {
-			if (req.session.userid != result[0].owner) {
+      if (result == []){
+        console.log('Invalid id')
+				req.flash('failure_message', 'Invalid id')
+				res.redirect('back')
+      } else if (req.session.userid != result[0].owner) {
 				console.log('Unauthorized')
 				req.flash('failure_message', 'Unauthorized')
 				res.redirect('/restaurant')
@@ -194,7 +198,7 @@ router.get('/delete/:id', (req, res, next) => {
 						res.redirect('/restaurant')
 					}
 				}
-				restaurantModel.delete(req.session.userid, result[0].restaurant_id, callback2)
+				restaurantModel.delete(req.session.userid, result[0]._id, callback2)
 			}
 		}
 	}

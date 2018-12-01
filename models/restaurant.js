@@ -207,7 +207,7 @@ const restaurant = {
 		mongoService.connect(callback)
 	},
 
-	delete: (user_id, restaurant_id, cb) => {
+	delete: (user_id, _id, cb) => {
 		const callback = (error, client) => {
 			if (error !== undefined && error) {
 				cb(err)
@@ -215,7 +215,7 @@ const restaurant = {
 				client.db(`${process.env.MONGODB_DATABASE}`).collection(restaurant.collectionName).deleteOne(
 					{
 						owner: user_id,
-						restaurant_id: restaurant_id
+						_id: ObjectID(_id)
 					},
 					cb
 				)
