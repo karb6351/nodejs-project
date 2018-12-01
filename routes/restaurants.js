@@ -96,7 +96,11 @@ router.get('/update/:id', (req, res, next) => {
 		if (error) {
 			console.log(error.message)
 			res.redirect('/restaurant')
-		} else if (result[0].owner !== req.session.userid) {
+    } else if (result == []) {
+      console.log('Invalid id')
+      req.flash('failure_message', 'Invalid id')
+			res.redirect('/restaurant')
+    } else if (result[0].owner !== req.session.userid) {
 			console.log('Unauthorized')
 			req.flash('failure_message', 'Unauthorized access')
 			res.status(403).redirect('back')
@@ -126,7 +130,11 @@ router.post('/update/:id', (req, res, next) => {
 				restaurantModel.getRestaurantbyId(req.params.id, (err, oldRestaurant) => {
 					if (err !== undefined && err) {
 						res.redirect('back')
-					} else if (oldRestaurant[0].owner != req.session.userid) {
+          } else if (oldRestaurant == []) {
+            console.log('Invalid id')
+						req.flash('failure_message', 'Invald id')
+            res.redirect('back')
+          } else if (oldRestaurant[0].owner != req.session.userid) {
 						console.log('Unauthorized')
 						req.flash('failure_message', 'Unauthorized access')
 						res.status(403).redirect('back')
@@ -208,11 +216,15 @@ router.get('/rate/:id', (req, res, next) => {
 		if (error) {
 			console.log('cant get restaurant')
 		} else {
-			if (checkRated(result[0].grades, req.session.userid)) {
+      if (result == []) {
+        console.log('Invalid id')
+				req.flash('failure_message', 'Invalid id')
+				res.redirect('back')
+      } else if (checkRated(result[0].grades, req.session.userid)) {
 				console.log('Rated')
 				req.flash('failure_message', 'You have rated before.')
 				res.redirect('/restaurant')
-			}else if (req.body.score < 0 || req.body.score > 10) {
+			} else if (req.body.score < 0 || req.body.score > 10) {
         console.log('invalid score')
 				req.flash('failure_message', 'The score should between 0 to 10')
 				res.redirect('/restaurant')
@@ -232,7 +244,15 @@ router.post('/rate/:id', (req, res, next) => {
 		if (error) {
 			console.log('Cant get restautant')
 			res.redirect('/restaurant')
-		} else {
+		} else if (req.body.rate < 0 || req.body.rate > 10){
+      console.log('Invalid score input', req.body.rate)
+      req.flash('failure_message', 'Score must be in range 0 to 10')
+			res.redirect('/restaurant')
+    } else if (result == []) {
+      console.log('Can\'t get restautant')
+      req.flash('failure_message', 'Invalid restaurant id')
+			res.redirect('/restaurant')
+    }else {
 			if (checkRated(result[0].grades, req.session.userid)) {
 				req.flash('failure_message', 'You have rated before.')
 				res.redirect('/restaurant')
@@ -252,7 +272,6 @@ router.post('/rate/:id', (req, res, next) => {
 			}
 		}
 	}
-
 	restaurantModel.getRestaurantbyId(req.params.id, callback)
 })
 
@@ -271,9 +290,15 @@ router.post('/search', (req, res, next) => {
         isSearch: true,
 			})
 		}
-	}
-	//call model getRestaurantsWithSearchKey
-	restaurantModel.search(req.body.search, callback)
+  }
+  if (!req.body.search || req.body.search == '') {
+    console.log('search key', req.body.search)
+    req.flash('failure_message', 'Search key is required')
+    res.redirect('back')
+  } else {
+    //call model getRestaurantsWithSearchKey
+    restaurantModel.search(req.body.search, callback)
+  }
 })
 
 router.get('/:id', (req, res, next) => {

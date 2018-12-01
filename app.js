@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 app.use('/user', usersRouter)
 app.use('/restaurant', auth, restaurantRouter)
 // app.use('/api/restaurant', auth, restaurantApiRouter)
-app.use('/api/restaurant', restaurantApiRouter)
+app.use('/api/restaurant', auth, restaurantApiRouter)
 /** routes goes here */
 
 app.get('/', (req, res) => {

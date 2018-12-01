@@ -56,7 +56,8 @@ const restaurant = {
 			street,
 			building,
 			zipcode,
-			coord,
+      lat,
+      lon,
 			photo,
 			extension
 		},
@@ -85,7 +86,8 @@ const restaurant = {
 								street: street,
 								building: building,
 								zipcode: zipcode,
-								coord: coord
+								lat: lat,
+                lon: lon
 							},
 							photo: update_photo,
 							extension: update_extension
@@ -105,7 +107,8 @@ const restaurant = {
 			street,
 			building,
 			zipcode,
-			coord,
+      lat,
+      lon,
 			photo,
 			extension
 		},
@@ -128,7 +131,8 @@ const restaurant = {
 								street: street,
 								building: building,
 								zipcode: zipcode,
-								coord: coord
+                lat: lat,
+                lon: lon
 							},
 							grades: [],
 							photo: photo,

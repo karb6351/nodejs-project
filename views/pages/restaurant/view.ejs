@@ -31,13 +31,20 @@
                             <tr><th>Street</th><td><%= restaurant.address.street %></td></tr>
                             <tr><th>Building</th><td><%= restaurant.address.building %></td></tr>
                             <tr><th>Zipcode</th><td><%= restaurant.address.zipcode %></td></tr>
-                            <tr><th>Coord</th><td><%= restaurant.address.coord %></td></tr>
+                            <tr>
+                                <th>Coord</th>
+                                <td>
+                                    <% if(restaurant.address.lat && restaurant.address.lon){ %>
+                                        [<%= restaurant.address.lat %> , <%= restaurant.address.lon %>]
+                                    <% } %>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4">Grades<i class="material-icons right">close</i></span>
-                    <table class="table">
+                    <table class="table" style="margin-bottom: 30px">
                         <thead>
                             <tr>
                                 <th>Owner</th>
@@ -53,10 +60,27 @@
                             <% }) %>
                         </tbody>
                     </table>
+                    <% if (restaurant.address.lat && restaurant.address.lon){ %>
+                        <span class="card-title grey-text text-darken-4">Map</span>
+                        <div id="map"></div>
+                    <% } %>
                 </div>
            </div>
         </div>
     </div>
 </div>
-
+<% if(restaurant.address.lat && restaurant.address.lon) { %>
+    <script>
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: parseFloat('<%= restaurant.address.lat %>'), lng: parseFloat('<%= restaurant.address.lon %>') },
+                zoom: 14
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAP_API_KEY %>&callback=initMap" async defer></script>
+ <% } %>
 <%- include('../../include/footer'); %>
+
+
