@@ -63,9 +63,9 @@
                     <% if (restaurant.address.lat && restaurant.address.lon){ %>
                         <span class="card-title grey-text text-darken-4">Map</span>
                         <div id="map"></div>
+		    	<a href="https://www.google.com/maps/@<%= restaurant.address.lat %>,<%= restaurant.address.lon %>,15z">Google map</a>
                     <% } %>
-		    <a href="https://www.google.com/maps/@<%= restaurant.address.lat %>,<%= restaurant.address.lon %>,15z"></a>
-                </div>
+		</div>
            </div>
         </div>
     </div>
