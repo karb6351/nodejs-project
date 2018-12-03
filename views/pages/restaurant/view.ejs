@@ -13,7 +13,7 @@
                 </div>
             </div>
            <div class="card" style="margin-top: 50px;">
-                <% if (restaurant.extension && restaurant.photo && restaurant.extension != 'pdf'){ %>
+                <% if (restaurant.extension && restaurant.photo && restaurant.extension != 'application/pdf'){ %>
                 <div class="card-image waves-effect waves-block waves-light">
                     <img class="activator" src="data:<%= restaurant.extension %>;base64, <%= restaurant.photo %>">
                 </div>
